@@ -5,7 +5,7 @@
     export let guess: Guess = { word: '', submitted: false, valid: false };
     $: ({ word, submitted } = guess);
 
-    $: letters = word.split('');
+    $: letters = word.padEnd(6, ' ').split('');
     console.log(letters);
 </script>
 

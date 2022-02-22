@@ -4,11 +4,14 @@
 
     const handleKeydown = (event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
+        console.log(event);
 
         if (key.length === 1 && 'a' <= key && key <= 'z') {
             guesses.addLetter(key);
         } else if (key === 'enter') {
             guesses.submitGuess();
+        } else if (key === 'backspace' || key === 'delete') {
+            guesses.removeLetter();
         }
 	};
 </script>

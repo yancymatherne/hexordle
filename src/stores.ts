@@ -50,6 +50,18 @@ const createGuesses = () => {
             }
 
             return [...g, lastGuess];
+        }),
+        removeLetter: () => update(g => {
+            let lastGuess = g.pop();
+
+            if (!lastGuess.submitted) {
+                lastGuess = {
+                    ...lastGuess,
+                    word: lastGuess.word.slice(0, -1)
+                }
+            }
+
+            return [...g, lastGuess];
         })
     }
 };
