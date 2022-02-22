@@ -18,7 +18,7 @@
 			</li>
 			<li class:active={$page.url.pathname === '/settings'}>
 				<a sveltekit:prefetch href="/settings">
-					<SettingsIcon size="2x">Settings</SettingsIcon>
+					<SettingsIcon size="2x" />
 				</a>
 			</li>
 		</ul>

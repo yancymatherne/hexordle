@@ -7,6 +7,8 @@
 
         if (key.length === 1 && 'a' <= key && key <= 'z') {
             guesses.addLetter(key);
+        } else if (key === 'enter') {
+            guesses.submitGuess();
         }
 	};
 </script>

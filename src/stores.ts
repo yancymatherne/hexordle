@@ -23,23 +23,34 @@ const createGuesses = () => {
 
     return {
         subscribe,
-        addLetter: (letter: string) => 
-            update(g => {
-                let lastGuess = g.pop();
+        addLetter: (letter: string) => update(g => {
+            let lastGuess = g.pop();
 
-                if (!lastGuess.submitted && lastGuess.word.length < 6) {
-                    lastGuess = {
-                        ...lastGuess,
-                        word: lastGuess.word + letter
-                    }
+            if (!lastGuess.submitted && lastGuess.word.length < 6) {
+                lastGuess = {
+                    ...lastGuess,
+                    word: lastGuess.word + letter
+                }
+            }
+
+            return [...g, lastGuess];
+        }),
+        submitGuess: () => update(g => {
+            let lastGuess = g.pop();
+
+            if (!lastGuess.submitted && lastGuess.word.length === 6) {
+                lastGuess = {
+                    ...lastGuess,
+                    submitted: true
                 }
 
-                return [...g, lastGuess];
-            })
-        ,
-        submitGuess: () => {
-            // todo
-        }
+                const next = { word: '', submitted: false, valid: true };
+
+                return [...g, lastGuess, next];
+            }
+
+            return [...g, lastGuess];
+        })
     }
 };
 

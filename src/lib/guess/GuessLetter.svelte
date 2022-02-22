@@ -22,6 +22,9 @@
         width: 15px;
         border: 3px solid black;
     }
+    .submitted {
+        background-color: lightgray;
+    }
     .submitted.match {
         background-color: lightgreen;
     }
