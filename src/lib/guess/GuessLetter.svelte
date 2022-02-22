@@ -5,8 +5,8 @@
 
     import { todaysWord } from '../../stores';
 
-    const match = letter === $todaysWord[position];
-    const misplaced = !match && $todaysWord.includes(letter);
+    $: match = submitted && letter === $todaysWord[position];
+    $: misplaced = submitted && !match && $todaysWord.includes(letter);
 </script>
 
 <div class="guess-letter" class:match class:misplaced class:submitted>
@@ -15,11 +15,15 @@
 
 <style>
     .guess-letter {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         text-transform: uppercase;
         margin: 5px;
         padding: 5px;
         width: 15px;
+        height: 20px;
         border: 3px solid black;
     }
     .submitted {

@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { guesses } from '../stores';
     import Guess from '$lib/guess/Guess.svelte';
+    import { MAX_GUESSES } from '$lib/guess/constants';
+
+    $: allGuesses = Array.from({...$guesses, length: MAX_GUESSES})
+        .fill(guesses.createGuess(), $guesses.length);
+
+    $: console.log(allGuesses);
 
     const handleKeydown = (event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
@@ -18,6 +24,6 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
-{#each $guesses as guess}
+{#each allGuesses as guess}
     <Guess {guess} />
 {/each}

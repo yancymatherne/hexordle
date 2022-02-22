@@ -1,11 +1,13 @@
 <script lang="ts">
     import GuessLetter from '$lib/guess/GuessLetter.svelte';
+    import { guesses } from '../../stores';
     import type { Guess } from 'src/types/guess.types';
+    import { WORD_LENGTH } from './constants';
 
-    export let guess: Guess = { word: '', submitted: false, valid: false };
+    export let guess: Guess = guesses.createGuess();
     $: ({ word, submitted } = guess);
 
-    $: letters = word.padEnd(6, ' ').split('');
+    $: letters = word.padEnd(WORD_LENGTH, ' ').split('');
     console.log(letters);
 </script>
 

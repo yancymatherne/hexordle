@@ -2,24 +2,16 @@ import { readable, writable } from 'svelte/store'
 import { localStore } from './localStore.js'
 import type { Guess } from './types/guess.types.js';
 
+export const todaysWord = readable('bandit');
+
+const createGuess = () => ({
+    word: '',
+    submitted: false,
+    valid: true
+});
+
 const createGuesses = () => {
-    const { subscribe, update } = writable<Guess[]>([{
-        word: 'needed',
-        submitted: true,
-        valid: true
-    }, {
-        word: 'wonder',
-        submitted: true,
-        valid: true
-    }, {
-        word: 'wander',
-        submitted: true,
-        valid: true
-    }, {
-        word: 'tan',
-        submitted: false,
-        valid: true
-    }]);
+    const { subscribe, update } = writable<Guess[]>([createGuess()]);
 
     return {
         subscribe,
@@ -62,10 +54,9 @@ const createGuesses = () => {
             }
 
             return [...g, lastGuess];
-        })
+        }),
+        createGuess
     }
 };
 
 export const guesses = createGuesses();
-
-export const todaysWord = readable('bandit');
