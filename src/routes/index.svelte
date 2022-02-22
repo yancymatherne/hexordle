@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { guesses } from '../stores';
+    import Guess from '$lib/guess/Guess.svelte';
+</script>
+
+{#each $guesses as guess, index}
+    <Guess {index} />
+{/each}
