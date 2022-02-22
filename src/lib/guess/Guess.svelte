@@ -1,14 +1,17 @@
-<script>
-	export let index = -1;
-	import { guesses } from '../../stores';
+<script lang="ts">
     import GuessLetter from '$lib/guess/GuessLetter.svelte';
-    const guess = index >= 0 ? $guesses[index] : { word: '', submitted: false, valid: false };
-    const letters = guess.word.split('');
+    import type { Guess } from 'src/types/guess.types';
+
+    export let guess: Guess = { word: '', submitted: false, valid: false };
+    $: ({ word, submitted } = guess);
+
+    $: letters = word.split('');
+    console.log(letters);
 </script>
 
 <div class="guess">
     {#each letters as letter, position}
-        <GuessLetter {letter} {position} />
+        <GuessLetter {letter} {position} {submitted} />
     {/each}
 </div>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
     export let letter = '';
     export let position = -1;
+    export let submitted = false;
 
     import { todaysWord } from '../../stores';
 
@@ -8,7 +9,7 @@
     const misplaced = !match && $todaysWord.includes(letter);
 </script>
 
-<div class="guess-letter" class:match class:misplaced>
+<div class="guess-letter" class:match class:misplaced class:submitted>
     {letter}
 </div>
 
@@ -21,10 +22,10 @@
         width: 15px;
         border: 3px solid black;
     }
-    .match {
+    .submitted.match {
         background-color: lightgreen;
     }
-    .misplaced {
+    .submitted.misplaced {
         background-color: yellow;
     }
 </style>
