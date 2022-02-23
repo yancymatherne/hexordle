@@ -1,50 +1,71 @@
 import { MAX_GUESSES, WORD_LENGTH } from '$lib/guess/constants.js';
-import { derived, get, readable, writable } from 'svelte/store'
+import type { GameState } from '$types/guess.types.js';
+import { get, readable } from 'svelte/store'
 import { localStore } from './localStore.js'
 
 export const todaysWord = readable('bandit');
 
-const createCurrentGuess = () => {
-    const { subscribe, set, update } = writable<string>('');
-
-    return {
-        subscribe,
-        addLetter: (letter: string) => update(guess => {
-            if (guess.length < 6) {
-                return guess + letter;
-            }
-
-            return guess;
-        }),
-        removeLetter: () => update(guess => {
-            return guess.slice(0, -1);
-        }),
-        clear: () => set('')
-    }
+const initialGameState: GameState = {
+    day: 0,
+    status: 'incomplete',
+    guesses: [],
+    currentGuess: ''
 };
 
-export const currentGuess = createCurrentGuess();
-
-const createGuesses = () => {
-    const { subscribe, update } = writable<string[]>([]);
+const createGameState = () => {
+    const { subscribe, update } = localStore('hexordle-game-state', initialGameState);
 
     return {
         subscribe,
-        submitGuess: () => update(g => {
-            const word = get(currentGuess);
+        addLetter: (letter: string) => update($gameState => {
+            let { currentGuess } = $gameState;
 
-            if (g.length < MAX_GUESSES && word.length === WORD_LENGTH) {
-                currentGuess.clear();
-                return [...g, word];
+            if (currentGuess.length < 6) {
+                currentGuess = currentGuess + letter;
             }
 
-            return g;
+            return {
+                ...$gameState,
+                currentGuess
+            };
+        }),
+        removeLetter: () => update($gameState => {
+            return {
+                ...$gameState,
+                currentGuess: $gameState.currentGuess.slice(0, -1)
+            };
+        }),
+        clear: () => update($gameState => {
+            return {
+                ...$gameState,
+                currentGuess: ''
+            };
+        }),
+        submitGuess: () => update($gameState => {
+            let { currentGuess, guesses, status } = $gameState;
+
+            if (guesses.length < MAX_GUESSES && currentGuess.length === WORD_LENGTH) {
+                guesses = [...guesses, currentGuess];
+
+                if (get(todaysWord) === currentGuess) {
+                    status = 'win';
+                } else if (guesses.length === MAX_GUESSES) {
+                    status = 'lose';
+                }
+
+                currentGuess = '';
+            }
+
+            return {
+                ...$gameState,
+                currentGuess,
+                guesses,
+                status
+            };
         })
-    }
+    };
 };
 
-export const guesses = createGuesses();
+export const gameState = createGameState();
 
-export const completed = derived([guesses, todaysWord],
-    ([$guesses, $todaysWord]) => $todaysWord === $guesses[$guesses.length - 1],
-    false);
+export const isStillPlaying = ($gameState?: GameState): boolean => $gameState && $gameState.status === 'incomplete';

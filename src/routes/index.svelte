@@ -1,39 +1,41 @@
 <script lang="ts">
-	import { guesses, currentGuess, completed } from '../stores';
+	import { gameState, isStillPlaying } from '../stores';
     import { MAX_GUESSES } from '$lib/guess/constants';
     import Guess from '$lib/guess/Guess.svelte';
 
-    $: currentGuessLength = $completed ? 0 : 1;
-    $: futureGuesses = Array(Math.max(0, MAX_GUESSES - currentGuessLength - $guesses.length)).fill('');
+    $: currentGuessLength = isStillPlaying($gameState) ? 1 : 0;
+    $: futureGuesses = Array(Math.max(0, MAX_GUESSES - currentGuessLength - $gameState.guesses.length)).fill('');
 
     const handleKeydown = (event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
         console.log(event);
 
         if (key.length === 1 && 'a' <= key && key <= 'z') {
-            currentGuess.addLetter(key);
+            gameState.addLetter(key);
         } else if (key === 'enter') {
-            guesses.submitGuess();
+            gameState.submitGuess();
         } else if (key === 'backspace' || key === 'delete') {
-            currentGuess.removeLetter();
+            gameState.removeLetter();
         }
 	};
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
 
-{#each $guesses as guess}
+{#each $gameState.guesses as guess}
     <Guess {guess} submitted />
 {/each}
 
-{#if $guesses.length < MAX_GUESSES && !$completed}
-    <Guess guess={$currentGuess} />
+{#if $gameState.guesses.length < MAX_GUESSES && isStillPlaying($gameState)}
+    <Guess guess={$gameState.currentGuess} />
 {/if}
 
 {#each futureGuesses as guess}
     <Guess {guess} disabled />
 {/each}
 
-{#if $completed}
-    Yay!
+{#if $gameState.status === 'win'}
+    Yay! 
+{:else if $gameState.status === 'lose'}
+    Aww!
 {/if}

@@ -1,8 +1,11 @@
 import { writable } from 'svelte/store';
 
+// https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Svelte_stores
+// https://dev.to/delanyobott/comment/1egh0
+
 export const localStore = (key, initial) => {                 // receives the key of the local storage and an initial value
 
-  const toString = (value) => JSON.stringify(value, null, 2)  // helper function
+  const toString = (value) => value ? JSON.stringify(value) : ''  // helper function
   const toObj = JSON.parse                                    // helper function
 
   if (localStorage.getItem(key) === null) {                   // item not present in local storage
@@ -11,14 +14,9 @@ export const localStore = (key, initial) => {                 // receives the ke
 
   const saved = toObj(localStorage.getItem(key))              // convert to object
 
-  const { subscribe, set, update } = writable(saved)          // create the underlying writable store
+  const store = writable(saved)          // create the underlying writable store
 
-  return {
-    subscribe,
-    set: (value) => {
-      localStorage.setItem(key, toString(value))              // save also to local storage as a string
-      return set(value)
-    },
-    update
-  }
+  store.subscribe((value) => localStorage.setItem(key, toString(value)));
+
+  return store;
 }
