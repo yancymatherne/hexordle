@@ -1,5 +1,5 @@
 import { MAX_GUESSES, WORD_LENGTH } from '$lib/guess/constants.js';
-import { get, readable, writable } from 'svelte/store'
+import { derived, get, readable, writable } from 'svelte/store'
 import { localStore } from './localStore.js'
 
 export const todaysWord = readable('bandit');
@@ -44,3 +44,7 @@ const createGuesses = () => {
 };
 
 export const guesses = createGuesses();
+
+export const completed = derived([guesses, todaysWord],
+    ([$guesses, $todaysWord]) => $todaysWord === $guesses[$guesses.length - 1],
+    false);

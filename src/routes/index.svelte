@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { guesses, currentGuess } from '../stores';
+	import { guesses, currentGuess, completed } from '../stores';
     import { MAX_GUESSES } from '$lib/guess/constants';
     import Guess from '$lib/guess/Guess.svelte';
 
-    $: futureGuesses = Array(Math.max(0, MAX_GUESSES - 1 - $guesses.length)).fill('');
+    $: currentGuessLength = $completed ? 0 : 1;
+    $: futureGuesses = Array(Math.max(0, MAX_GUESSES - currentGuessLength - $guesses.length)).fill('');
 
     const handleKeydown = (event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
@@ -25,10 +26,14 @@
     <Guess {guess} submitted />
 {/each}
 
-{#if $guesses.length < MAX_GUESSES}
+{#if $guesses.length < MAX_GUESSES && !$completed}
     <Guess guess={$currentGuess} />
 {/if}
 
 {#each futureGuesses as guess}
-    <Guess {guess} />
+    <Guess {guess} disabled />
 {/each}
+
+{#if $completed}
+    Yay!
+{/if}
