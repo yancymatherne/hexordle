@@ -1,22 +1,26 @@
 import { writable } from 'svelte/store';
+import { browser } from "$app/env";
 
 // https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Svelte_stores
 // https://dev.to/delanyobott/comment/1egh0
 
-export const localStore = (key, initial) => {                 // receives the key of the local storage and an initial value
+export const localStore = (key: string, initial)=> {
+  const toString = (value) => value ? JSON.stringify(value) : '';
+  const toObj = JSON.parse;
 
-  const toString = (value) => value ? JSON.stringify(value) : ''  // helper function
-  const toObj = JSON.parse                                    // helper function
-
-  if (localStorage.getItem(key) === null) {                   // item not present in local storage
-    localStorage.setItem(key, toString(initial))              // initialize local storage with initial value
+  if (browser && localStorage.getItem(key) === null) {
+    // The item is not present in local storage.
+    // Initialize local storage with the initial value parameter.
+    localStorage.setItem(key, toString(initial));
   }
 
-  const saved = toObj(localStorage.getItem(key))              // convert to object
+  // Use initial value from localStorage or the initial value parameter if we are in SSR.
+  const saved = browser ? toObj(localStorage.getItem(key)) : initial;
 
-  const store = writable(saved)          // create the underlying writable store
+  const store = writable(saved);
 
-  store.subscribe((value) => localStorage.setItem(key, toString(value)));
+  // Subscribe to store updates to keep localStorge in sync.
+  browser && store.subscribe((value) => localStorage.setItem(key, toString(value)));
 
   return store;
 }

@@ -1,15 +1,16 @@
-import { MAX_GUESSES, WORD_LENGTH } from '$lib/guess/constants.js';
-import type { GameState } from '$types/guess.types.js';
+import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
+import { Evaluation, GameStatus, type GameState } from './types/guess.types';
 import { get, readable } from 'svelte/store'
-import { localStore } from './localStore.js'
+import { localStore } from './localStore'
 
 export const todaysWord = readable('bandit');
 
 const initialGameState: GameState = {
     day: 0,
-    status: 'incomplete',
+    status: GameStatus.INCOMPLETE,
+    currentGuess: '',
     guesses: [],
-    currentGuess: ''
+    evaluations: []
 };
 
 const createGameState = () => {
@@ -42,15 +43,18 @@ const createGameState = () => {
             };
         }),
         submitGuess: () => update($gameState => {
-            let { currentGuess, guesses, status } = $gameState;
+            let { currentGuess, evaluations, guesses, status } = $gameState;
 
             if (guesses.length < MAX_GUESSES && currentGuess.length === WORD_LENGTH) {
-                guesses = [...guesses, currentGuess];
+                const target = get(todaysWord);
 
-                if (get(todaysWord) === currentGuess) {
-                    status = 'win';
+                guesses = [...guesses, currentGuess];
+                evaluations = [...evaluations, evaluateWord(currentGuess, target)];
+
+                if (target === currentGuess) {
+                    status = GameStatus.WIN;
                 } else if (guesses.length === MAX_GUESSES) {
-                    status = 'lose';
+                    status = GameStatus.LOSE;
                 }
 
                 currentGuess = '';
@@ -58,9 +62,10 @@ const createGameState = () => {
 
             return {
                 ...$gameState,
+                status,
                 currentGuess,
                 guesses,
-                status
+                evaluations
             };
         })
     };
@@ -68,4 +73,37 @@ const createGameState = () => {
 
 export const gameState = createGameState();
 
-export const isStillPlaying = ($gameState?: GameState): boolean => $gameState && $gameState.status === 'incomplete';
+export const isStillPlaying = ($gameState?: GameState): boolean => $gameState && $gameState.status === GameStatus.INCOMPLETE;
+
+export const evaluateWord = (word: string, target: string) => {
+    const letterCounts = target.split('')
+        .reduce((counts, letter) => ({
+            ...counts,
+            [letter]: counts[letter] === undefined ? 1 : counts[letter] + 1
+        }), {});
+
+    const matched = word.split('')
+        .map((letter, i) => {
+            if (letter === target[i]) {
+                letterCounts[letter]--;
+                return Evaluation.CORRECT;
+            }
+
+            return Evaluation.ABSENT;
+        })
+        .map((evaluation, i) => {
+            const letter = word[i];
+            if (evaluation === Evaluation.CORRECT) {
+                return evaluation;
+            }
+
+            if (letterCounts[letter]) {
+                letterCounts[letter]--;
+                return Evaluation.MISPLACED;
+            }
+
+            return Evaluation.ABSENT;
+        });
+
+    return matched.join('');
+};

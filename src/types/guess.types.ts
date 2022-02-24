@@ -4,11 +4,24 @@ export interface Guess {
     valid: boolean;
 };
 
+export enum GameStatus {
+    INCOMPLETE = 'incomplete',
+    WIN = 'win',
+    LOSE = 'lose'
+}
+
+export enum Evaluation {
+    ABSENT = '-',
+    CORRECT = 'c',
+    MISPLACED = 'm'
+}
+
 export interface GameState {
     day: number;
-    status: 'incomplete' | 'win' | 'lose';
-    guesses: string[];
+    status: GameStatus;
     currentGuess: string;
+    guesses: string[];
+    evaluations: string[];
 }
 
 export interface Stats {

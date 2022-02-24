@@ -1,22 +1,22 @@
 <script lang="ts">
+	import { scale } from 'svelte/transition';
+	import { circOut } from 'svelte/easing';
+    import { Evaluation } from '../../types/guess.types';
+
     export let letter = '';
-    export let position = -1;
+    export let evaluation = '';
     export let submitted = false;
     export let disabled = false;
 
-    import { todaysWord } from '../../stores';
-	import { scale } from 'svelte/transition';
-	import { circOut } from 'svelte/easing';
-
-    $: match = submitted && letter === $todaysWord[position];
-    $: misplaced = submitted && !match && $todaysWord.includes(letter);
+    $: match = evaluation === Evaluation.CORRECT;
+    $: misplaced = evaluation === Evaluation.MISPLACED;
 </script>
 
 {#key letter}
-<div class="guess-letter" class:match class:misplaced class:submitted class:disabled
-    in:scale="{{duration: 750, opacity: 0, start: 0, easing: circOut}}">
-    {letter}
-</div>
+    <div class="guess-letter" class:match class:misplaced class:submitted class:disabled
+        in:scale="{{duration: 750, opacity: 0, start: 0, easing: circOut}}">
+        {letter}
+    </div>
 {/key}
 
 <style>

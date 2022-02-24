@@ -8,7 +8,13 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		vite: () => ({
+			// exclude: 'coverage'
+			optimizeDeps: {
+                exclude: ['coverage/*'],
+            },
+		})
 	}
 };
 
