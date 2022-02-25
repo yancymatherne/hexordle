@@ -3,6 +3,8 @@
     import { MAX_GUESSES } from '$lib/guess/constants';
     import Guess from '$lib/guess/Guess.svelte';
     import { GameStatus } from '../types/guess.types';
+    import Keyboard from '$lib/keyboard/Keyboard.svelte';
+    import { handleKey } from '$lib/keyboard/keyboardActions';
 
     $: currentGuessLength = isStillPlaying($gameState) ? 1 : 0;
     $: futureGuesses = Array(Math.max(0, MAX_GUESSES - currentGuessLength - $gameState.guesses.length)).fill('');
@@ -11,13 +13,7 @@
         const key = event.key.toLowerCase();
         console.log(event);
 
-        if (key.length === 1 && 'a' <= key && key <= 'z') {
-            gameState.addLetter(key);
-        } else if (key === 'enter') {
-            gameState.submitGuess();
-        } else if (key === 'backspace' || key === 'delete') {
-            gameState.removeLetter();
-        }
+        handleKey(key);
 	};
 </script>
 
@@ -40,3 +36,5 @@
 {:else if $gameState.status === GameStatus.LOSE}
     Aww!
 {/if}
+
+<Keyboard />

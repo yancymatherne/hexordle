@@ -32,3 +32,19 @@ export const evaluateWord = (word: string, target: string) => {
 
     return matched.join('');
 };
+
+export const evaluateKeyboardLetter = (next: string, previous = '') => {
+    if (next === Evaluation.CORRECT) {
+        return Evaluation.CORRECT;
+    } else if (next === Evaluation.MISPLACED) {
+        if (previous !== Evaluation.CORRECT) {
+            return Evaluation.MISPLACED;
+        }
+    } else if (next === Evaluation.ABSENT) {
+        if (previous !== Evaluation.CORRECT && previous !== Evaluation.MISPLACED) {
+            return Evaluation.ABSENT;
+        }
+    }
+
+    return previous;
+};
