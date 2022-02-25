@@ -5,15 +5,24 @@
     export let letter: string;
     export let evaluation = '';
 
-
+    $: wideButton = letter === 'enter' || letter === 'delete';
     $: match = evaluation === Evaluation.CORRECT;
     $: misplaced = evaluation === Evaluation.MISPLACED;
     $: absent = evaluation === Evaluation.ABSENT;
 
+    let renderedLetter = letter;
+    $: if (letter === 'enter') {
+        renderedLetter = '\u23CE';
+    } else if (letter === 'delete') {
+        renderedLetter = '\u232B'
+    } else {
+        renderedLetter = letter;
+    }
+
     const handle = () => handleKey(letter);
 </script>
 
-<button on:click={handle} class:match class:misplaced class:absent>{letter}</button>
+<button on:click={handle} class:wideButton class:match class:misplaced class:absent>{renderedLetter}</button>
 
 <style>
     * {
@@ -29,7 +38,12 @@
         background-color: lightgray;
         border: none;
         border-radius: 4px;
+        cursor: pointer;
         /* flex: 1; */
+    }
+    .wideButton {
+        min-width: 45px;
+        /* flex: 1.5; */
     }
     .match {
         background-color: lightgreen;
