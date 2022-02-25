@@ -1,4 +1,4 @@
-import { evaluateWord } from './stores';
+import { evaluateWord } from './evaluation';
 
 describe('evaluateWord', () => {
     it('should evaluate no matched or misplaced letters', () => {

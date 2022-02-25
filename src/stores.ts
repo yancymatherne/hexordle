@@ -1,7 +1,8 @@
 import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
-import { Evaluation, GameStatus, type GameState } from './types/guess.types';
+import { GameStatus, type GameState } from './types/guess.types';
 import { get, readable } from 'svelte/store'
 import { localStore } from './localStore'
+import { evaluateWord } from './lib/evaluation/evaluation';
 
 export const todaysWord = readable('bandit');
 
@@ -74,36 +75,3 @@ const createGameState = () => {
 export const gameState = createGameState();
 
 export const isStillPlaying = ($gameState?: GameState): boolean => $gameState && $gameState.status === GameStatus.INCOMPLETE;
-
-export const evaluateWord = (word: string, target: string) => {
-    const letterCounts = target.split('')
-        .reduce((counts, letter) => ({
-            ...counts,
-            [letter]: counts[letter] === undefined ? 1 : counts[letter] + 1
-        }), {});
-
-    const matched = word.split('')
-        .map((letter, i) => {
-            if (letter === target[i]) {
-                letterCounts[letter]--;
-                return Evaluation.CORRECT;
-            }
-
-            return Evaluation.ABSENT;
-        })
-        .map((evaluation, i) => {
-            const letter = word[i];
-            if (evaluation === Evaluation.CORRECT) {
-                return evaluation;
-            }
-
-            if (letterCounts[letter]) {
-                letterCounts[letter]--;
-                return Evaluation.MISPLACED;
-            }
-
-            return Evaluation.ABSENT;
-        });
-
-    return matched.join('');
-};
