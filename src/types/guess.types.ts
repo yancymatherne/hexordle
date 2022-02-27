@@ -7,7 +7,7 @@ export interface Guess {
 export enum GameStatus {
     INCOMPLETE = 'incomplete',
     WIN = 'win',
-    LOSE = 'lose'
+    LOSS = 'loss'
 }
 
 export enum Evaluation {

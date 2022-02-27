@@ -48,7 +48,7 @@
 <div class="game-status">
     {#if $gameState.status === GameStatus.WIN}
         {winMessage[$gameState.guesses.length]}
-    {:else if $gameState.status === GameStatus.LOSE}
+    {:else if $gameState.status === GameStatus.LOSS}
         Dude, that sucks!
     {/if}
     {#if !isStillPlaying($gameState)}

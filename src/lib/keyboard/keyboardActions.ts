@@ -1,10 +1,10 @@
-import { gameState } from "../../stores";
+import { gameState, submitGuess } from "../../stores";
 
 export const handleKey = (key: string) => {
     if (key.length === 1 && 'a' <= key && key <= 'z') {
         gameState.addLetter(key);
     } else if (key === 'enter') {
-        gameState.submitGuess();
+        submitGuess();
     } else if (key === 'backspace' || key === 'delete') {
         gameState.removeLetter();
     }
