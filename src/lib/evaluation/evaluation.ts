@@ -48,3 +48,24 @@ export const evaluateKeyboardLetter = (next: string, previous = '') => {
 
     return previous;
 };
+
+export const winMessage = {
+    1: 'Flawless Victory!',
+    2: 'Very nice!',
+    3: 'Good job.',
+    4: 'Adequately won.',
+    5: '#winning',
+    6: 'Winning is winning.'
+};
+
+const mapEvaluationToBlock = {
+    [Evaluation.CORRECT]: '\uD83D\uDFE9',
+    [Evaluation.MISPLACED]: '\uD83D\uDFE8',
+    [Evaluation.ABSENT]: '\u2B1C' // black -> '\u2B1B'
+};
+
+export const getBlocks = (evaluations: string[]) => {
+    return evaluations.map(evaluation =>
+        evaluation.split('').map(letter => mapEvaluationToBlock[letter]).join('')
+    ).join('\n');
+};

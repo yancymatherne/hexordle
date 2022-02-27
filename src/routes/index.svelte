@@ -5,6 +5,8 @@
     import { GameStatus } from '../types/guess.types';
     import Keyboard from '$lib/keyboard/Keyboard.svelte';
     import { handleKey } from '$lib/keyboard/keyboardActions';
+    import { getBlocks, winMessage } from '$lib/evaluation/evaluation';
+    import { Share2Icon } from 'svelte-feather-icons';
 
     $: currentGuessLength = isStillPlaying($gameState) ? 1 : 0;
     $: futureGuesses = Array(Math.max(0, MAX_GUESSES - currentGuessLength - $gameState.guesses.length)).fill('');
@@ -15,6 +17,18 @@
 
         handleKey(key);
 	};
+
+    const handleShare = async () => {
+        const data = {
+            text: `Hexordle ${$gameState.guesses.length}/${MAX_GUESSES}\n${getBlocks($gameState.evaluations)}`
+        };
+
+        if (navigator && navigator.share) {
+            await navigator.share(data);
+        } else if (navigator && navigator.clipboard) {
+            await navigator.clipboard.writeText(data.text);
+        }
+    }
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
@@ -31,10 +45,34 @@
     <Guess {guess} disabled />
 {/each}
 
-{#if $gameState.status === GameStatus.WIN}
-    Yay! 
-{:else if $gameState.status === GameStatus.LOSE}
-    Aww!
-{/if}
+<div class="game-status">
+    {#if $gameState.status === GameStatus.WIN}
+        {winMessage[$gameState.guesses.length]}
+    {:else if $gameState.status === GameStatus.LOSE}
+        Dude, that sucks!
+    {/if}
+    {#if !isStillPlaying($gameState)}
+        <button on:click={handleShare}>Share <Share2Icon size="1x" /></button>
+    {/if}
+</div>
 
 <Keyboard />
+
+<style>
+    .game-status {
+        text-align: center;
+        padding: 10px;
+        min-height: 40px;
+    }
+
+    button {
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px;
+        display: inline-flex;
+        align-items: center;
+        column-gap: 5px;
+    }
+</style>
