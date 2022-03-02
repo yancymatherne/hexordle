@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { SettingsIcon } from 'svelte-feather-icons'
+	import { BarChart2Icon, SettingsIcon } from 'svelte-feather-icons'
 </script>
 
 <header>
@@ -14,11 +14,13 @@
 		<ul>
 			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Home</a></li>
 			<li class:active={$page.url.pathname === '/stats'}>
-				<a sveltekit:prefetch href="/stats">Stats</a>
+				<a sveltekit:prefetch href="/stats">
+					<BarChart2Icon size="1.5x" />
+				</a>
 			</li>
 			<li class:active={$page.url.pathname === '/settings'}>
 				<a sveltekit:prefetch href="/settings">
-					<SettingsIcon size="2x" />
+					<SettingsIcon size="1.5x" />
 				</a>
 			</li>
 		</ul>

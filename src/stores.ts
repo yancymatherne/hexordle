@@ -2,7 +2,7 @@ import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
 import { GameStatus, type GameState, type Stats } from './types/guess.types';
 import { get, readable } from 'svelte/store'
 import { localStore } from './localStore'
-import { evaluateWord } from './lib/evaluation/evaluation';
+import { evaluateWord, getColumnScores } from './lib/evaluation/evaluation';
 
 export const todaysWord = readable('bandit');
 
@@ -20,6 +20,14 @@ const initialStats: Stats = {
     currentStreak: 0,
     maxStreak: 0,
     guessDistribution: {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0
+    },
+    columnDistribution: {
         1: 0,
         2: 0,
         3: 0,
@@ -66,12 +74,20 @@ export const gameState = createGameState();
 
 export const isStillPlaying = ($gameState?: GameState): boolean => $gameState && $gameState.status === GameStatus.INCOMPLETE;
 
+const getColumnDistribution = (evaluations: string[], columnDistribution) =>
+    getColumnScores(evaluations)
+        .reduce((acc, value, cIndex) => {
+            const column = cIndex + 1;
+            acc[column] = value + columnDistribution[column];
+            return acc;
+        }, {});
+
 const createStats = () => {
     const { subscribe, update } = localStore('hexordle-stats', initialStats);
 
     return {
         subscribe,
-        addWin: (guessNumber: number) => update($stats => ({
+        addWin: (guessNumber: number, evaluations: string[]) => update($stats => ({
             ...$stats,
             gamesWon: $stats.gamesWon + 1,
             gamesPlayed: $stats.gamesPlayed + 1,
@@ -80,12 +96,14 @@ const createStats = () => {
             guessDistribution: {
                 ...$stats.guessDistribution,
                 [guessNumber]: $stats.guessDistribution[guessNumber] + 1
-            }
+            },
+            columnDistribution: getColumnDistribution(evaluations, $stats.columnDistribution)
         })),
-        addLoss: () => update($stats => ({
+        addLoss: (evaluations: string[]) => update($stats => ({
             ...$stats,
             gamesPlayed: $stats.gamesPlayed + 1,
-            currentStreak: 0
+            currentStreak: 0,
+            columnDistribution: getColumnDistribution(evaluations, $stats.columnDistribution)
         }))
     };
 };
@@ -103,10 +121,10 @@ export const submitGuess = () => {
 
         if (target === currentGuess) {
             status = GameStatus.WIN;
-            stats.addWin(guesses.length);
+            stats.addWin(guesses.length, evaluations);
         } else if (guesses.length === MAX_GUESSES) {
             status = GameStatus.LOSS;
-            stats.addLoss();
+            stats.addLoss(evaluations);
         }
 
         currentGuess = '';

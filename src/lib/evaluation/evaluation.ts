@@ -1,3 +1,4 @@
+import { MAX_GUESSES, WORD_LENGTH } from "$lib/guess/constants";
 import { Evaluation } from "../../types/guess.types";
 
 export const evaluateWord = (word: string, target: string) => {
@@ -64,8 +65,45 @@ const mapEvaluationToBlock = {
     [Evaluation.ABSENT]: '\u2B1C' // black -> '\u2B1B'
 };
 
+/**
+ * Gets a unicode emoji view of the board for sharing.
+ *
+ * @param evaluations
+ * @returns string
+ */
 export const getBlocks = (evaluations: string[]) => {
     return evaluations.map(evaluation =>
         evaluation.split('').map(letter => mapEvaluationToBlock[letter]).join('')
     ).join('\n');
+};
+
+/**
+ * Gets the first correct guess for each column.
+ */
+export const getColumnScores = (evaluations: string[]) => {
+    return evaluations.reduce((acc, guess, index) => {
+        guess.split('').forEach((letterEval, columnIndex) => {
+            if (letterEval === Evaluation.CORRECT) {
+                acc[columnIndex] = Math.min(index + 1, acc[columnIndex]);
+            }
+        });
+
+        return acc;
+    }, new Array(WORD_LENGTH).fill(MAX_GUESSES + 1));
+};
+
+export const getColumnAverages = (columnDistribution, gamesPlayed: number) => 
+    Object.values(columnDistribution)
+        .map((total: number) => Math.round(gamesPlayed ? total / gamesPlayed : MAX_GUESSES + 1));
+
+export const getColumnDistributionMatrix = (columnDistribution, gamesPlayed: number) => {
+    const matrix = [];
+    const columnAverages = Object.values(columnDistribution)
+        .map((total: number) => Math.round(gamesPlayed ? total / gamesPlayed : MAX_GUESSES + 1));
+
+    for (let i = 1; i <= MAX_GUESSES; i++) {
+        matrix.push(columnAverages.map(avg => i >= avg ? Evaluation.CORRECT : Evaluation.ABSENT).join(''));
+    }
+
+    return matrix;
 };
