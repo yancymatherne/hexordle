@@ -1,5 +1,6 @@
 import { MAX_GUESSES, WORD_LENGTH } from "$lib/guess/constants";
 import { Evaluation } from "../../types/guess.types";
+import dictionary from "../data/guessList.json";
 
 export const evaluateWord = (word: string, target: string) => {
     const letterCounts = target.split('')
@@ -107,3 +108,5 @@ export const getColumnDistributionMatrix = (columnDistribution, gamesPlayed: num
 
     return matrix;
 };
+
+export const isValidWord = (word: string) => dictionary.includes(word);

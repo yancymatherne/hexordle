@@ -14,6 +14,7 @@
     "test:watch": "npm run test -- --watch"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.0",
     "@babel/preset-typescript": "^7.16.7",
     "@sveltejs/adapter-auto": "next",
@@ -22,13 +23,16 @@
     "@testing-library/svelte": "^3.0.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.0",
+    "@types/testing-library__jest-dom": "^5.14.0",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "babel-jest": "^27.0.0",
+    "cheerio": "^1.0.0-rc.10",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^3.2.1",
     "jest": "^27.0.0",
+    "node-fetch": "^3.2.1",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.0",
     "svelte": "^3.44.0",
@@ -38,9 +42,7 @@
     "svelte-preprocess": "^4.10.1",
     "ts-jest": "^27.0.0",
     "tslib": "^2.3.1",
-    "typescript": "~4.5.4",
-    "@babel/core": "^7.14.0",
-    "@types/testing-library__jest-dom": "^5.14.0"
+    "typescript": "~4.5.4"
   },
   "type": "module"
 }

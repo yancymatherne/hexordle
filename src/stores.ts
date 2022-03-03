@@ -1,8 +1,23 @@
 import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
 import { GameStatus, type GameState, type Stats } from './types/guess.types';
-import { get, readable } from 'svelte/store'
+import { get, readable, writable } from 'svelte/store'
 import { localStore } from './localStore'
-import { evaluateWord, getColumnScores } from './lib/evaluation/evaluation';
+import { evaluateWord, getColumnScores, isValidWord } from './lib/evaluation/evaluation';
+
+const createErrorMessageStore = () => {
+    const { subscribe, set } = writable<string>();
+
+    return {
+        subscribe,
+        set: (message: string) => {
+            set(message);
+
+            setTimeout(() => set(undefined), 3000);
+        }
+    }
+};
+
+export const errorMessage = createErrorMessageStore();
 
 export const todaysWord = readable('bandit');
 
@@ -113,28 +128,32 @@ export const stats = createStats();
 export const submitGuess = () => {
     let { currentGuess, evaluations, guesses, status } = get(gameState);
 
-    if (guesses.length < MAX_GUESSES && currentGuess.length === WORD_LENGTH) {
-        const target = get(todaysWord);
+    if (currentGuess.length === WORD_LENGTH) {
+        if (isValidWord(currentGuess)) {
+            const target = get(todaysWord);
 
-        guesses = [...guesses, currentGuess];
-        evaluations = [...evaluations, evaluateWord(currentGuess, target)];
+            guesses = [...guesses, currentGuess];
+            evaluations = [...evaluations, evaluateWord(currentGuess, target)];
 
-        if (target === currentGuess) {
-            status = GameStatus.WIN;
-            stats.addWin(guesses.length, evaluations);
-        } else if (guesses.length === MAX_GUESSES) {
-            status = GameStatus.LOSS;
-            stats.addLoss(evaluations);
+            if (target === currentGuess) {
+                status = GameStatus.WIN;
+                stats.addWin(guesses.length, evaluations);
+            } else if (guesses.length === MAX_GUESSES) {
+                status = GameStatus.LOSS;
+                stats.addLoss(evaluations);
+            }
+
+            currentGuess = '';
+
+            gameState.update($gameState => ({
+                ...$gameState,
+                status,
+                currentGuess,
+                guesses,
+                evaluations
+            }));
+        } else {
+            errorMessage.set('Invalid word.');
         }
-
-        currentGuess = '';
     }
-
-    gameState.update($gameState => ({
-        ...$gameState,
-        status,
-        currentGuess,
-        guesses,
-        evaluations
-    }));
 }

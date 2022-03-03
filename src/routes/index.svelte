@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { gameState, isStillPlaying } from '../stores';
     import { MAX_GUESSES } from '$lib/guess/constants';
+    import Error from '$lib/error/Error.svelte';
     import Guess from '$lib/guess/Guess.svelte';
     import { GameStatus } from '../types/guess.types';
     import Keyboard from '$lib/keyboard/Keyboard.svelte';
@@ -32,6 +33,8 @@
 </script>
 
 <svelte:window on:keydown={handleKeydown}/>
+
+<Error />
 
 {#each $gameState.guesses as guess, index}
     <Guess {guess} evaluation={$gameState.evaluations[index]} submitted />
