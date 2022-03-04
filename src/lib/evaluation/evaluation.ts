@@ -1,6 +1,8 @@
 import { MAX_GUESSES, WORD_LENGTH } from "$lib/guess/constants";
 import { Evaluation } from "../../types/guess.types";
 import dictionary from "../data/guessList.json";
+import { DateTime } from "luxon";
+import solutionList from "../data/solutionList.json";
 
 export const evaluateWord = (word: string, target: string) => {
     const letterCounts = target.split('')
@@ -110,3 +112,12 @@ export const getColumnDistributionMatrix = (columnDistribution, gamesPlayed: num
 };
 
 export const isValidWord = (word: string) => dictionary.includes(word);
+
+export const getTodaysWordIndex = (date = DateTime.local()) => {
+    const result = DateTime.fromISO(date.toISODate(), { zone: 'utc' }).toSeconds()
+
+    return result % solutionList.length;
+}
+
+export const getTodaysWord = (date = DateTime.local()) =>
+    solutionList[getTodaysWordIndex(date)];

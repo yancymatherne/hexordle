@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gameState, isStillPlaying } from '../stores';
+	import { errorMessage, gameState, isStillPlaying } from '../stores';
     import { MAX_GUESSES } from '$lib/guess/constants';
     import Error from '$lib/error/Error.svelte';
     import Guess from '$lib/guess/Guess.svelte';
@@ -28,6 +28,7 @@
             await navigator.share(data);
         } else if (navigator && navigator.clipboard) {
             await navigator.clipboard.writeText(data.text);
+            errorMessage.set('Copied to clipboard.');
         }
     }
 </script>

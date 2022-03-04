@@ -1,6 +1,13 @@
 <script lang="ts">
 	import Header from '$lib/header/Header.svelte';
+	import { initializeGame } from '../stores';
+	import { onMount } from 'svelte';
 	import '../app.css';
+
+	onMount(() => {
+		console.log('Mounting.');
+		initializeGame();
+	})
 </script>
 
 <Header />

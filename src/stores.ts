@@ -2,7 +2,7 @@ import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
 import { GameStatus, type GameState, type Stats } from './types/guess.types';
 import { get, readable, writable } from 'svelte/store'
 import { localStore } from './localStore'
-import { evaluateWord, getColumnScores, isValidWord } from './lib/evaluation/evaluation';
+import { evaluateWord, getColumnScores, getTodaysWord, getTodaysWordIndex, isValidWord } from './lib/evaluation/evaluation';
 
 const createErrorMessageStore = () => {
     const { subscribe, set } = writable<string>();
@@ -19,10 +19,10 @@ const createErrorMessageStore = () => {
 
 export const errorMessage = createErrorMessageStore();
 
-export const todaysWord = readable('bandit');
+export const todaysWord = readable(getTodaysWord());
 
 const initialGameState: GameState = {
-    day: 0,
+    day: -1,
     status: GameStatus.INCOMPLETE,
     currentGuess: '',
     guesses: [],
@@ -53,7 +53,7 @@ const initialStats: Stats = {
 };
 
 const createGameState = () => {
-    const { subscribe, update } = localStore('hexordle-game-state', initialGameState);
+    const { subscribe, set, update } = localStore('hexordle-game-state', initialGameState);
 
     return {
         subscribe,
@@ -75,6 +75,10 @@ const createGameState = () => {
                 ...$gameState,
                 currentGuess: $gameState.currentGuess.slice(0, -1)
             };
+        }),
+        initialize: (day: number) => set({
+            ...initialGameState,
+            day
         }),
         clear: () => update($gameState => {
             return {
@@ -155,5 +159,20 @@ export const submitGuess = () => {
         } else {
             errorMessage.set('Invalid word.');
         }
+    }
+}
+
+export const initializeGame = () => {
+    const todaysIndex = getTodaysWordIndex();
+    let { day, evaluations, status } = get(gameState);
+
+    if (day !== todaysIndex) {
+        if (status === GameStatus.INCOMPLETE && day !== initialGameState.day) {
+            // A previous day's unfinished game is still loaded.
+            stats.addLoss(evaluations);
+        }
+
+        // Load up a new game for today.
+        gameState.initialize(todaysIndex);
     }
 }
