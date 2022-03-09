@@ -20,15 +20,3 @@
         <Guess {guess} disabled />
     {/each}
 </div>
-
-
-<style>
-    .game-board {
-        flex: 1;
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        padding: 0 5vw;
-        column-gap: 5px;
-        row-gap: 5px;
-    }
-</style>

@@ -37,18 +37,20 @@
 
 <GameBoard />
 
-<div class="game-status">
-    {#if $gameState.status === GameStatus.WIN}
-        {winMessage[$gameState.guesses.length]}
-    {:else if $gameState.status === GameStatus.LOSS}
-        Dude, that sucks!
-    {/if}
-    {#if !isStillPlaying($gameState)}
-        <button on:click={handleShare}>Share <Share2Icon size="1x" /></button>
-    {/if}
-</div>
+<div class="everything-else">
+    <div class="game-status">
+        {#if $gameState.status === GameStatus.WIN}
+            {winMessage[$gameState.guesses.length]}
+        {:else if $gameState.status === GameStatus.LOSS}
+            Dude, that sucks!
+        {/if}
+        {#if !isStillPlaying($gameState)}
+            <button on:click={handleShare}>Share <Share2Icon size="1x" /></button>
+        {/if}
+    </div>
 
-<Keyboard />
+    <Keyboard />
+</div>
 
 <style>
     .game-status {

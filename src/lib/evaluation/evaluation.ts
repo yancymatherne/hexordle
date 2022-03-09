@@ -95,14 +95,12 @@ export const getColumnScores = (evaluations: string[]) => {
     }, new Array(WORD_LENGTH).fill(MAX_GUESSES + 1));
 };
 
-export const getColumnAverages = (columnDistribution, gamesPlayed: number) => 
+export const getColumnAverages = (columnDistribution, gamesPlayed: number): number[] =>
     Object.values(columnDistribution)
         .map((total: number) => Math.round(gamesPlayed ? total / gamesPlayed : MAX_GUESSES + 1));
 
-export const getColumnDistributionMatrix = (columnDistribution, gamesPlayed: number) => {
+export const getColumnDistributionMatrix = (columnAverages: number[]) => {
     const matrix = [];
-    const columnAverages = Object.values(columnDistribution)
-        .map((total: number) => Math.round(gamesPlayed ? total / gamesPlayed : MAX_GUESSES + 1));
 
     for (let i = 1; i <= MAX_GUESSES; i++) {
         matrix.push(columnAverages.map(avg => i >= avg ? Evaluation.CORRECT : Evaluation.ABSENT).join(''));

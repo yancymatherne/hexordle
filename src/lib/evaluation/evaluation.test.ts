@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 import { Evaluation } from '../../types/guess.types';
-import { evaluateKeyboardLetter, evaluateWord, getColumnDistributionMatrix, getColumnScores, getTodaysWordIndex } from './evaluation';
+import { evaluateKeyboardLetter, evaluateWord, getColumnAverages, getColumnDistributionMatrix, getColumnScores, getTodaysWordIndex } from './evaluation';
 import solutionList from "../data/solutionList.json";
 
 describe('evaluateWord', () => {
@@ -126,7 +126,8 @@ describe('getColumnScores', () => {
 
 describe('getColumnDistributionMatrix', () => {
     it.skip('should evaluate', () => {
-        const result = getColumnDistributionMatrix({ 1: 6, 2: 6, 3: 6, 4: 9, 5: 8, 6: 8 }, 2);
+        const averages = getColumnAverages({ 1: 6, 2: 6, 3: 6, 4: 9, 5: 8, 6: 8 }, 2);
+        const result = getColumnDistributionMatrix(averages);
         expect(result).toStrictEqual([7,7,7,7,7,7]);
     });
 });
