@@ -1,5 +1,5 @@
 import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
-import { GameStatus, type GameState, type Stats } from './types/guess.types';
+import { GameStatus, type GameState, type Settings, type Stats } from './types/guess.types';
 import { get, readable, writable } from 'svelte/store'
 import { localStore } from './localStore'
 import { evaluateWord, getColumnScores, getTodaysWord, getTodaysWordIndex, isValidWord } from './lib/evaluation/evaluation';
@@ -176,3 +176,21 @@ export const initializeGame = () => {
         gameState.initialize(todaysIndex);
     }
 }
+
+const initialSettings = {
+    dark: true
+};
+
+const createSettings = () => {
+    const { subscribe, update } = localStore('hexordle-settings', initialSettings);
+
+    return {
+        subscribe,
+        update: (newSettings: Partial<Settings>) => update($settings => ({
+            ...$settings,
+            ...newSettings
+        }))
+    };
+};
+
+export const settings = createSettings();

@@ -20,15 +20,21 @@
     }, {});
 </script>
 
-{#each keyboard as row}
-    <div class="keyboard-row">
-        {#each row as letter}
-            <KeyboardLetter {letter} evaluation={letterEvaluation[letter]} />
-        {/each}
-    </div>
-{/each}
+<div class="keyboard">
+    {#each keyboard as row}
+        <div class="keyboard-row">
+            {#each row as letter}
+                <KeyboardLetter {letter} evaluation={letterEvaluation[letter]} />
+            {/each}
+        </div>
+    {/each}
+</div>
 
 <style>
+    .keyboard {
+        flex: 0;
+    }
+
     .keyboard-row {
         display: flex;
         justify-content: center;

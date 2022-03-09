@@ -26,24 +26,24 @@
         justify-content: center;
         text-align: center;
         text-transform: uppercase;
-        margin: 3px;
         padding: 5px;
-        width: 15px;
-        height: 20px;
-        border: 2px solid black;
+        min-width: 15px;
+        min-height: 24px;
+	    background-color: var(--current-color);
+        font-weight: bold;
+        color: var(--game-board-color);
     }
     .submitted {
-        background-color: darkgray;
-        border-color: black;
+        background-color: var(--submitted-color);
     }
     .disabled {
-        background-color: lightgray;
-        border-color: darkgray;
+        background-color: var(--disabled-color);
+        border-color: var(--disabled-border-color);
     }
     .submitted.match {
-        background-color: lightgreen;
+        background-color: var(--match-color);
     }
     .submitted.misplaced {
-        background-color: yellow;
+        background-color: var(--misplaced-color);
     }
 </style>

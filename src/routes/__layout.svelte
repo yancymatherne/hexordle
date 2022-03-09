@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/header/Header.svelte';
-	import { initializeGame } from '../stores';
+	import { initializeGame, settings } from '../stores';
 	import { onMount } from 'svelte';
 	import '../app.css';
 
@@ -8,16 +8,20 @@
 		console.log('Mounting.');
 		initializeGame();
 	})
+
+	$: dark = $settings.dark;
 </script>
 
-<Header />
+<div class="body" class:dark>
+	<Header />
 
-<main>
-	<slot />
-</main>
+	<main>
+		<slot />
+	</main>
 
-<footer>
-</footer>
+	<footer>
+	</footer>
+</div>
 
 <style>
 	main {
@@ -26,9 +30,10 @@
 		flex-direction: column;
 		padding: 1rem;
 		width: 100%;
-		max-width: 1024px;
+		max-width: 480px;
 		margin: 0 auto;
 		box-sizing: border-box;
+		height: 80vh;
 	}
 
 	footer {

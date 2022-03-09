@@ -2,15 +2,13 @@
 	import { errorMessage, gameState, isStillPlaying } from '../stores';
     import { MAX_GUESSES } from '$lib/guess/constants';
     import Error from '$lib/error/Error.svelte';
-    import Guess from '$lib/guess/Guess.svelte';
     import { GameStatus } from '../types/guess.types';
     import Keyboard from '$lib/keyboard/Keyboard.svelte';
     import { handleKey } from '$lib/keyboard/keyboardActions';
     import { getBlocks, winMessage } from '$lib/evaluation/evaluation';
     import { Share2Icon } from 'svelte-feather-icons';
+    import GameBoard from '$lib/guess/GameBoard.svelte';
 
-    $: currentGuessLength = isStillPlaying($gameState) ? 1 : 0;
-    $: futureGuesses = Array(Math.max(0, MAX_GUESSES - currentGuessLength - $gameState.guesses.length)).fill('');
 
     const handleKeydown = (event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
@@ -37,17 +35,7 @@
 
 <Error />
 
-{#each $gameState.guesses as guess, index}
-    <Guess {guess} evaluation={$gameState.evaluations[index]} submitted />
-{/each}
-
-{#if $gameState.guesses.length < MAX_GUESSES && isStillPlaying($gameState)}
-    <Guess guess={$gameState.currentGuess} />
-{/if}
-
-{#each futureGuesses as guess}
-    <Guess {guess} disabled />
-{/each}
+<GameBoard />
 
 <div class="game-status">
     {#if $gameState.status === GameStatus.WIN}
@@ -71,12 +59,17 @@
 
     button {
         background-color: green;
-        color: white;
+        color: var(--pure-white);
         border: none;
         border-radius: 4px;
         padding: 10px;
         display: inline-flex;
         align-items: center;
         column-gap: 5px;
+    }
+
+    .game-status {
+        flex: 0;
+        color: var(--text-color);
     }
 </style>

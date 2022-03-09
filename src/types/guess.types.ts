@@ -46,3 +46,7 @@ export interface Stats {
         6: number;
     }
 }
+
+export interface Settings {
+    dark: boolean;
+}

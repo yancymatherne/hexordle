@@ -11,15 +11,6 @@
     console.log(letters);
 </script>
 
-<div class="guess">
-    {#each letters as letter, position}
-        <GuessLetter {letter} evaluation={evaluation[position]} {submitted} {disabled} />
-    {/each}
-</div>
-
-<style>
-    .guess {
-        display: flex;
-        justify-content: center;
-    }
-</style>
+{#each letters as letter, position}
+    <GuessLetter {letter} evaluation={evaluation[position]} {submitted} {disabled} />
+{/each}
