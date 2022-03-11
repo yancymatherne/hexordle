@@ -13,11 +13,10 @@ const initialDictionaryText = fs.readFileSync(input);
 
 const initialDictionaryJson = JSON.parse(initialDictionaryText);
 
-const processedDictionaryJson = initialDictionaryJson.map(obj => obj.word);
+const processedDictionaryJson = initialDictionaryJson.map((obj) => obj.word);
 
 const outputData = JSON.stringify(processedDictionaryJson, null, 2);
 
 fs.writeFileSync(output, outputData);
 
 console.log(`Processed ${processedDictionaryJson.length} words.`);
-

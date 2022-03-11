@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { BarChart2Icon, SettingsIcon } from 'svelte-feather-icons'
+	import { BarChart2Icon, SettingsIcon } from 'svelte-feather-icons';
 </script>
 
 <header>

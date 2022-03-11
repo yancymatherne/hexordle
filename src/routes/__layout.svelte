@@ -7,7 +7,7 @@
 	onMount(() => {
 		console.log('Mounting.');
 		initializeGame();
-	})
+	});
 
 	$: dark = $settings.dark;
 </script>

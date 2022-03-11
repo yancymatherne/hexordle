@@ -12,8 +12,8 @@ const config = {
 		vite: () => ({
 			// exclude: 'coverage'
 			optimizeDeps: {
-                exclude: ['coverage/*'],
-            },
+				exclude: ['coverage/*']
+			}
 		})
 	}
 };
