@@ -10,7 +10,9 @@
 	--tertiary-color: #edf0f8;
 	--accent-color: #ff3e00;
 	--heading-color: rgba(0, 0, 0, 0.7);
-	--text-color: #444444;
+	--text-color-light: #444444;
+	--text-color-dark: #eeeeee;
+	--text-color: var(--text-color-light);
 	--background-without-opacity: rgba(255, 255, 255, 0.7);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
@@ -30,7 +32,7 @@
 	--primary-color: #000000;
 	--secondary-color: #101010;
 	--tertiary-color: #333333;
-	--text-color: #eeeeee;
+	--text-color: var(--text-color-dark);
 
 	--border-color: lightgrey;
 	--disabled-border-color: darkgrey;
@@ -143,7 +145,7 @@ button:focus:not(:focus-visible) {
 	row-gap: 5px;
 }
 
-.everything-else {
+.bottom-section {
 	flex: 0;
 	min-height: 30vh;
 	justify-content: end;

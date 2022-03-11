@@ -9,7 +9,6 @@
     import { Share2Icon } from 'svelte-feather-icons';
     import GameBoard from '$lib/guess/GameBoard.svelte';
 
-
     const handleKeydown = (event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
         console.log(event);
@@ -37,7 +36,7 @@
 
 <GameBoard />
 
-<div class="everything-else">
+<div class="bottom-section">
     <div class="game-status">
         {#if $gameState.status === GameStatus.WIN}
             {winMessage[$gameState.guesses.length]}
@@ -68,6 +67,7 @@
         display: inline-flex;
         align-items: center;
         column-gap: 5px;
+        cursor: pointer;
     }
 
     .game-status {

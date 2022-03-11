@@ -1,25 +1,49 @@
 <script lang="ts">
-import { getColumnAverages, getColumnDistributionMatrix } from "$lib/evaluation/evaluation";
-import Guess from "$lib/guess/Guess.svelte";
-import { stats } from "../../stores";
+    import { getColumnAverages, getColumnDistributionMatrix, getGuessesDistributionMatrix, getNormalizedGuessDistribution } from "$lib/evaluation/evaluation";
+    import { WORD_LENGTH } from "$lib/guess/constants";
+    import Guess from "$lib/guess/Guess.svelte";
+    import ToggleButton from "$lib/toggle/ToggleButton.svelte";
+    import { stats } from "../../stores";
 
-$: winPercentage = Math.trunc(($stats.gamesPlayed ? $stats.gamesWon / $stats.gamesPlayed : 0) * 100);
-$: averages = getColumnAverages($stats.columnDistribution, $stats.gamesPlayed);
-$: columnMatrix = getColumnDistributionMatrix(averages);
+    $: winPercentage = Math.trunc(($stats.gamesPlayed ? $stats.gamesWon / $stats.gamesPlayed : 0) * 100);
+    $: columnAverages = getColumnAverages($stats.columnDistribution, $stats.gamesPlayed);
+    $: normalizedGuesses = getNormalizedGuessDistribution($stats.guessDistribution);
+    $: matrix = active === 'Column' ? getColumnDistributionMatrix(columnAverages) : getGuessesDistributionMatrix(normalizedGuesses);
 
-const getGuess = (index: number) => averages.map(column => (index === column - 1) ? column : ' ').join('');
+    const getText = (index: number, active: string) => {
+        if (active === 'Column') {
+            return columnAverages.map(column => (index === column - 1) ? column : ' ').join('');
+        } else {
+            return new Array(WORD_LENGTH)
+                .fill(' ')
+                .map((_, i) => ((i && (i + 1)) === normalizedGuesses[index]) ? $stats.guessDistribution[index + 1] : ' ')
+                .join('');
+        }
+    };
+
+    const buttons = ['Column', 'Guess'];
+
+    let active = buttons[0];
+
+    const onClick = (label: string) => {
+        active = label;
+    };
 </script>
 
 <div class="game-board">
-    {#each columnMatrix as evaluation, index}
-        <Guess guess={getGuess(index)} {evaluation} submitted />
+    {#each matrix as evaluation, index}
+        <Guess guess={getText(index, active)} {evaluation} submitted />
     {/each}
 </div>
 
-
-<div class="everything-else">
+<div class="bottom-section">
     <div class="description">
-        Average number of guesses to find each column.
+        {#if active === 'Column'}
+            Average number of guesses to find each column.
+        {:else}
+            Number of guesses to find each solution.
+        {/if}
+        <ToggleButton {buttons} {active} {onClick} />
     </div>
 
     <div class="stats">
@@ -42,7 +66,7 @@ const getGuess = (index: number) => averages.map(column => (index === column - 1
     }
     .description {
         text-align: center;
-        padding: 1em 0 2em 0;
+        padding: .5em 0 2em 0;
     }
     .right {
         justify-self: end;

@@ -35,7 +35,7 @@
         padding: 5px;
         min-width: 30px;
         height: 40px;
-        background-color: lightgray;
+        background-color: var(--disabled-color);
         border: none;
         border-radius: 4px;
         cursor: pointer;
@@ -46,12 +46,12 @@
         /* flex: 1.5; */
     }
     .match {
-        background-color: lightgreen;
+        background-color: var(--match-color);
     }
     .misplaced {
-        background-color: yellow;
+        background-color: var(--misplaced-color);
     }
     .absent {
-        background-color: darkgrey;
+        background-color: var(--submitted-color);
     }
 </style>
