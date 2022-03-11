@@ -11,12 +11,12 @@
 		<ul>
 			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Hexordle</a></li>
 			<li class:active={$page.url.pathname === '/stats'}>
-				<a sveltekit:prefetch href="/stats">
+				<a sveltekit:prefetch href="/stats" aria-label="stats">
 					<BarChart2Icon size="1.5x" />
 				</a>
 			</li>
 			<li class:active={$page.url.pathname === '/settings'}>
-				<a sveltekit:prefetch href="/settings">
+				<a sveltekit:prefetch href="/settings" aria-label="settings">
 					<SettingsIcon size="1.5x" />
 				</a>
 			</li>

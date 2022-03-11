@@ -10,7 +10,7 @@
 	--tertiary-color: #edf0f8;
 	--accent-color: #ff3e00;
 	--heading-color: rgba(0, 0, 0, 0.7);
-	--text-color-light: #444444;
+	--text-color-light: #333333;
 	--text-color-dark: #eeeeee;
 	--text-color: var(--text-color-light);
 	--background-without-opacity: rgba(255, 255, 255, 0.7);
@@ -22,7 +22,7 @@
 	--misplaced-color: yellow;
 	--submitted-color: darkgrey;
 	--disabled-color: lightgrey;
-	--game-board-color: var(--text-color);
+	--game-board-color: var(--text-color-light);
 
 	--border-color: black;
 	--disabled-border-color: darkgrey;
