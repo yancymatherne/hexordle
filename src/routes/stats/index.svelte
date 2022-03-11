@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getColumnAverages, getColumnDistributionMatrix, getGuessesDistributionMatrix, getNormalizedGuessDistribution } from "$lib/evaluation/evaluation";
+    import { getColumnAverages, getColumnDistributionMatrix, getGuessesDistributionMatrix, getNormalizedGuessDistribution } from "$lib/functions/stats";
     import { WORD_LENGTH } from "$lib/guess/constants";
     import Guess from "$lib/guess/Guess.svelte";
     import ToggleButton from "$lib/toggle/ToggleButton.svelte";
@@ -60,7 +60,7 @@
         display: grid;
         grid-template-columns: auto 20%;
     }
-    .everything-else {
+    .bottom-section {
         justify-content: start;
         padding: 0 5vw;
     }

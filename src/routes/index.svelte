@@ -5,7 +5,7 @@
     import { GameStatus } from '../types/guess.types';
     import Keyboard from '$lib/keyboard/Keyboard.svelte';
     import { handleKey } from '$lib/keyboard/keyboardActions';
-    import { getBlocks, winMessage } from '$lib/evaluation/evaluation';
+    import { getBlocks, winMessage } from '$lib/functions/evaluation';
     import { Share2Icon } from 'svelte-feather-icons';
     import GameBoard from '$lib/guess/GameBoard.svelte';
 
@@ -53,6 +53,8 @@
 
 <style>
     .game-status {
+        flex: 0;
+        color: var(--text-color);
         text-align: center;
         padding: 10px;
         min-height: 40px;
@@ -68,10 +70,5 @@
         align-items: center;
         column-gap: 5px;
         cursor: pointer;
-    }
-
-    .game-status {
-        flex: 0;
-        color: var(--text-color);
     }
 </style>

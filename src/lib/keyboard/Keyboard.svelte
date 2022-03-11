@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { evaluateKeyboardLetter } from "../../lib/evaluation/evaluation";
+    import { evaluateKeyboardLetter } from "../functions/evaluation";
     import { gameState } from "../../stores";
     import KeyboardLetter from "./KeyboardLetter.svelte";
 

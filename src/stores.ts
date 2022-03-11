@@ -2,7 +2,9 @@ import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
 import { GameStatus, type GameState, type Settings, type Stats } from './types/guess.types';
 import { get, readable, writable } from 'svelte/store'
 import { localStore } from './localStore'
-import { evaluateWord, getColumnScores, getTodaysWord, getTodaysWordIndex, isValidWord } from './lib/evaluation/evaluation';
+import { evaluateWord } from './lib/functions/evaluation';
+import { getTodaysWord, getTodaysWordIndex, isValidWord } from './lib/functions/word';
+import { getColumnScores } from './lib/functions/stats';
 
 const createErrorMessageStore = () => {
     const { subscribe, set } = writable<string>();
