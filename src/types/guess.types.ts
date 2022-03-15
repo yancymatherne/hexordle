@@ -50,3 +50,8 @@ export interface Stats {
 export interface Settings {
 	dark: boolean;
 }
+
+export interface Alert {
+    id: number;
+    message: string;
+}

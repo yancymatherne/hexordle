@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { errorMessage, gameState, isStillPlaying } from '../stores';
+	import { alerts, gameState, isStillPlaying } from '../stores';
 	import { MAX_GUESSES } from '$lib/guess/constants';
-	import Error from '$lib/error/Error.svelte';
+	import Alerts from '$lib/alerts/Alerts.svelte';
 	import { GameStatus } from '../types/guess.types';
 	import Keyboard from '$lib/keyboard/Keyboard.svelte';
 	import { handleKey } from '$lib/keyboard/keyboardActions';
@@ -29,14 +29,14 @@
 			await navigator.share(data);
 		} else if (navigator && navigator.clipboard) {
 			await navigator.clipboard.writeText(data.text);
-			errorMessage.set('Copied to clipboard.');
+			alerts.add('Copied to clipboard.');
 		}
 	};
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 
-<Error />
+<Alerts />
 
 <GameBoard />
 

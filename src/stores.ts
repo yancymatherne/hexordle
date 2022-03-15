@@ -1,25 +1,26 @@
 import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
-import { GameStatus, type GameState, type Settings, type Stats } from './types/guess.types';
+import { GameStatus, type GameState, type Alert, type Settings, type Stats } from './types/guess.types';
 import { get, readable, writable } from 'svelte/store';
 import { localStore } from './localStore';
 import { evaluateWord } from './lib/functions/evaluation';
 import { getTodaysWord, getTodaysWordIndex, isValidWord } from './lib/functions/word';
 import { getColumnScores } from './lib/functions/stats';
 
-const createErrorMessageStore = () => {
-	const { subscribe, set } = writable<string>();
+const createAlertsStore = () => {
+	const { subscribe, update } = writable<Alert[]>([]);
+    let messageCounter = 0;
 
 	return {
 		subscribe,
-		set: (message: string) => {
-			set(message);
+		add: (message: string) => {
+			update($alerts => [...$alerts, { id: messageCounter++, message }]);
 
-			setTimeout(() => set(undefined), 3000);
+			setTimeout(() => update($alerts => $alerts.slice(1)), 1500);
 		}
 	};
 };
 
-export const errorMessage = createErrorMessageStore();
+export const alerts = createAlertsStore();
 
 export const todaysWord = readable(getTodaysWord());
 
@@ -165,7 +166,7 @@ export const submitGuess = () => {
 				evaluations
 			}));
 		} else {
-			errorMessage.set('Invalid word.');
+			alerts.add('Invalid word.');
 		}
 	}
 };
