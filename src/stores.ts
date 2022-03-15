@@ -1,5 +1,11 @@
 import { MAX_GUESSES, WORD_LENGTH } from './lib/guess/constants';
-import { GameStatus, type GameState, type Alert, type Settings, type Stats } from './types/guess.types';
+import {
+	GameStatus,
+	type GameState,
+	type Alert,
+	type Settings,
+	type Stats
+} from './types/guess.types';
 import { get, readable, writable } from 'svelte/store';
 import { localStore } from './localStore';
 import { evaluateWord } from './lib/functions/evaluation';
@@ -8,14 +14,14 @@ import { getColumnScores } from './lib/functions/stats';
 
 const createAlertsStore = () => {
 	const { subscribe, update } = writable<Alert[]>([]);
-    let messageCounter = 0;
+	let messageCounter = 0;
 
 	return {
 		subscribe,
 		add: (message: string) => {
-			update($alerts => [...$alerts, { id: messageCounter++, message }]);
+			update(($alerts) => [...$alerts, { id: messageCounter++, message }]);
 
-			setTimeout(() => update($alerts => $alerts.slice(1)), 1500);
+			setTimeout(() => update(($alerts) => $alerts.slice(1)), 1500);
 		}
 	};
 };
@@ -173,7 +179,7 @@ export const submitGuess = () => {
 
 export const initializeGame = () => {
 	const todaysIndex = getTodaysWordIndex();
-	let { day, evaluations, status } = get(gameState);
+	const { day, evaluations, status } = get(gameState);
 
 	if (day !== todaysIndex) {
 		if (status === GameStatus.INCOMPLETE && day !== initialGameState.day) {
