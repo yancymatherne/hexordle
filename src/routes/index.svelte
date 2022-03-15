@@ -13,7 +13,9 @@
 		const key = event.key.toLowerCase();
 		console.log(event);
 
-		handleKey(key);
+		if (!event.ctrlKey && !event.metaKey && !event.altKey) {
+			handleKey(key);
+		}
 	};
 
 	const handleShare = async () => {
