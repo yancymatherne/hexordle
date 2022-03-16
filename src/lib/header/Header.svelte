@@ -1,6 +1,12 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import { page } from '$app/stores';
 	import { BarChart2Icon, SettingsIcon } from 'svelte-feather-icons';
+
+	const getPath = (path: string) => base + path;
+	const root = getPath('/');
+	const stats = getPath('/stats');
+	const settings = getPath('/settings');
 </script>
 
 <header>
@@ -9,14 +15,16 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Hexordle</a></li>
-			<li class:active={$page.url.pathname === '/stats'}>
-				<a sveltekit:prefetch href="/stats" aria-label="stats">
+			<li class:active={$page.url.pathname === root}>
+				<a sveltekit:prefetch href={root}>Hexordle</a>
+			</li>
+			<li class:active={$page.url.pathname === stats}>
+				<a sveltekit:prefetch href={stats} aria-label="stats">
 					<BarChart2Icon size="1.5x" />
 				</a>
 			</li>
-			<li class:active={$page.url.pathname === '/settings'}>
-				<a sveltekit:prefetch href="/settings" aria-label="settings">
+			<li class:active={$page.url.pathname === settings}>
+				<a sveltekit:prefetch href={settings} aria-label="settings">
 					<SettingsIcon size="1.5x" />
 				</a>
 			</li>
