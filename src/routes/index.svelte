@@ -11,7 +11,6 @@
 
 	const handleKeydown = (event: KeyboardEvent) => {
 		const key = event.key.toLowerCase();
-		console.log(event);
 
 		if (!event.ctrlKey && !event.metaKey && !event.altKey) {
 			handleKey(key);

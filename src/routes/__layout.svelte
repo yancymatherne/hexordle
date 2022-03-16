@@ -4,10 +4,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 
-	onMount(() => {
-		console.log('Mounting.');
-		initializeGame();
-	});
+	onMount(() => initializeGame());
 
 	$: dark = $settings.dark;
 </script>
