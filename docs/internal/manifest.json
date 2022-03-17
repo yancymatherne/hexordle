@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-2b299f3f.js",
+    "file": "start-a081f2a8.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -16,14 +16,14 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-11a3fc6a.js",
+    "file": "pages/__layout.svelte-ec2cd56a.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_vendor-b66e214f.js",
       "_paths-4b3c6e7e.js",
-      "_stores-10c4fef9.js"
+      "_stores-3cd064d2.js"
     ],
     "css": [
       "assets/pages/__layout.svelte-2cd3303a.css"
@@ -39,38 +39,38 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-033a8d89.js",
+    "file": "pages/index.svelte-5f3e15be.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_vendor-b66e214f.js",
-      "_stores-10c4fef9.js",
-      "_Guess-50f52229.js"
+      "_stores-3cd064d2.js",
+      "_Guess-bb209419.js"
     ],
     "css": [
       "assets/pages/index.svelte-5ef8e306.css"
     ]
   },
   "src/routes/settings/index.svelte": {
-    "file": "pages/settings/index.svelte-79043082.js",
+    "file": "pages/settings/index.svelte-776cb792.js",
     "src": "src/routes/settings/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_vendor-b66e214f.js",
-      "_stores-10c4fef9.js"
+      "_stores-3cd064d2.js"
     ]
   },
   "src/routes/stats/index.svelte": {
-    "file": "pages/stats/index.svelte-8f667ef8.js",
+    "file": "pages/stats/index.svelte-12562cd5.js",
     "src": "src/routes/stats/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_vendor-b66e214f.js",
-      "_stores-10c4fef9.js",
-      "_Guess-50f52229.js"
+      "_stores-3cd064d2.js",
+      "_Guess-bb209419.js"
     ],
     "css": [
       "assets/pages/stats/index.svelte-ad656fcf.css"
@@ -82,17 +82,17 @@
   "_paths-4b3c6e7e.js": {
     "file": "chunks/paths-4b3c6e7e.js"
   },
-  "_stores-10c4fef9.js": {
-    "file": "chunks/stores-10c4fef9.js",
+  "_stores-3cd064d2.js": {
+    "file": "chunks/stores-3cd064d2.js",
     "imports": [
       "_vendor-b66e214f.js"
     ]
   },
-  "_Guess-50f52229.js": {
-    "file": "chunks/Guess-50f52229.js",
+  "_Guess-bb209419.js": {
+    "file": "chunks/Guess-bb209419.js",
     "imports": [
       "_vendor-b66e214f.js",
-      "_stores-10c4fef9.js"
+      "_stores-3cd064d2.js"
     ],
     "css": [
       "assets/Guess-8f79f69d.css"
