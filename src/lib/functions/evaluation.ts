@@ -1,4 +1,5 @@
-import { Evaluation } from '../../types/guess.types';
+import { MAX_GUESSES } from '$lib/guess/constants';
+import { Evaluation, GameStatus, type GameState } from '../../types/guess.types';
 
 export const evaluateWord = (word: string, target: string) => {
 	const letterCounts = target.split('').reduce(
@@ -79,4 +80,13 @@ export const getBlocks = (evaluations: string[]) => {
 				.join('')
 		)
 		.join('\n');
+};
+
+export const getShareMessage = ($gameState: GameState) => {
+	const numberOfGuesses =
+		$gameState && $gameState.status === GameStatus.LOSS ? 'X' : $gameState.guesses.length;
+
+	return `Hexordle ${$gameState.day} ${numberOfGuesses}/${MAX_GUESSES}\n${getBlocks(
+		$gameState.evaluations
+	)}`;
 };
