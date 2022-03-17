@@ -5,7 +5,7 @@
 	import { GameStatus } from '../types/guess.types';
 	import Keyboard from '$lib/keyboard/Keyboard.svelte';
 	import { handleKey } from '$lib/keyboard/keyboardActions';
-	import { getBlocks, winMessage } from '$lib/functions/evaluation';
+	import { getBlocks, getShareMessage, winMessage } from '$lib/functions/evaluation';
 	import { Share2Icon } from 'svelte-feather-icons';
 	import GameBoard from '$lib/guess/GameBoard.svelte';
 
@@ -19,9 +19,7 @@
 
 	const handleShare = async () => {
 		const data = {
-			text: `Hexordle ${$gameState.guesses.length}/${MAX_GUESSES}\n${getBlocks(
-				$gameState.evaluations
-			)}`
+			text: getShareMessage($gameState)
 		};
 
 		if (navigator && navigator.share) {
