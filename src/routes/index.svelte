@@ -33,6 +33,10 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
+<svelte:head>
+	<title>Hexordle</title>
+</svelte:head>
+
 <Alerts />
 
 <GameBoard />
