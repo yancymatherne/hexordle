@@ -22,12 +22,16 @@
 	const handle = () => handleKey(letter);
 </script>
 
-<button on:click={handle} class:wideButton class:match class:misplaced class:absent
-	>{renderedLetter}</button
->
+{#if renderedLetter === '*'}
+	<span class="spacer" />
+{:else}
+	<button on:click={handle} class:wideButton class:match class:misplaced class:absent>
+		{renderedLetter}
+	</button>
+{/if}
 
 <style>
-	* {
+	button {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -41,11 +45,13 @@
 		border: none;
 		border-radius: 4px;
 		cursor: pointer;
-		/* flex: 1; */
+		flex: 1;
+	}
+	.spacer {
+		flex: 0.5;
 	}
 	.wideButton {
-		min-width: 45px;
-		/* flex: 1.5; */
+		flex: 1.5;
 	}
 	.match {
 		background-color: var(--match-color);

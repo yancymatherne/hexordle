@@ -42,6 +42,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Hexordle Stats</title>
+</svelte:head>
+
 <div class="game-board">
 	{#each matrix as evaluation, index}
 		<Guess guess={getText(index, active)} {evaluation} submitted />

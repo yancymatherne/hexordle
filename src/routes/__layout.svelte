@@ -22,7 +22,7 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		padding: 1rem 0.5rem;
 		width: 100%;
 		max-width: 480px;
 		margin: 0 auto;
