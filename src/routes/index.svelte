@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { alerts, gameState, isStillPlaying } from '../stores';
-	import { MAX_GUESSES } from '$lib/guess/constants';
-	import Alerts from '$lib/alerts/Alerts.svelte';
 	import { GameStatus } from '../types/guess.types';
 	import Keyboard from '$lib/keyboard/Keyboard.svelte';
 	import { handleKey } from '$lib/keyboard/keyboardActions';
-	import { getBlocks, getShareMessage, winMessage } from '$lib/functions/evaluation';
+	import { getShareMessage, winMessage } from '$lib/functions/evaluation';
 	import { Share2Icon } from 'svelte-feather-icons';
 	import GameBoard from '$lib/guess/GameBoard.svelte';
 
@@ -36,8 +34,6 @@
 <svelte:head>
 	<title>Hexordle</title>
 </svelte:head>
-
-<Alerts />
 
 <GameBoard />
 

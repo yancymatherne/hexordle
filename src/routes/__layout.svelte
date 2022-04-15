@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Alerts from '$lib/alerts/Alerts.svelte';
 	import Header from '$lib/header/Header.svelte';
 	import { initializeGame, settings } from '../stores';
 	import { onMount } from 'svelte';
@@ -11,6 +12,8 @@
 
 <div class="body" class:dark>
 	<Header />
+
+	<Alerts />
 
 	<main>
 		<slot />
