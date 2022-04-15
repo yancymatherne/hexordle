@@ -1,7 +1,7 @@
 import { build, files, timestamp } from '$service-worker';
 
 const CACHE_NAME = `hexordle-cache-v1-${timestamp}`;
-const HTML_FILES = ['/', '/settings', '/stats'];
+const HTML_FILES = ['/', '/settings', '/stats'].map(path => '/hexordle' + path);
 
 self.addEventListener('install', function (event) {
 	// @ts-ignore
